@@ -1,0 +1,13 @@
+package com.goovat.phoneguardian.core
+
+sealed class AppResult<out T> {
+
+    data class Success<T>(
+        val data: T
+    ) : AppResult<T>()
+
+    data class Failure(
+        val message: String,
+        val cause: Throwable? = null
+    ) : AppResult<Nothing>()
+}
