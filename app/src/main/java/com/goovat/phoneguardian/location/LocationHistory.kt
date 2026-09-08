@@ -9,4 +9,8 @@ class LocationHistory {
     }
 
     fun locations(): List<CurrentLocation> = locations.toList()
+
+    fun lastKnown(): LastKnownLocation? {
+        return locations.lastOrNull()?.let { LastKnownLocation(it) }
+    }
 }

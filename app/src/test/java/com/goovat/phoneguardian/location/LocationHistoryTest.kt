@@ -1,6 +1,7 @@
 package com.goovat.phoneguardian.location
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 class LocationHistoryTest {
@@ -27,6 +28,41 @@ class LocationHistoryTest {
         history.add(second)
 
         assertEquals(listOf(first, second), history.locations())
+    }
+
+
+    @Test
+    fun returnsLastKnownLocation() {
+        val first = CurrentLocation(
+            latitude = 4.8156,
+            longitude = 7.0498,
+            accuracyMeters = 8.5f,
+            timestampMillis = 1_700_000_000_000L
+        )
+
+        val second = CurrentLocation(
+            latitude = 4.8200,
+            longitude = 7.0550,
+            accuracyMeters = 10.0f,
+            timestampMillis = 1_700_000_001_000L
+        )
+
+        val history = LocationHistory()
+
+        history.add(first)
+        history.add(second)
+
+        assertEquals(
+            LastKnownLocation(second),
+            history.lastKnown()
+        )
+    }
+
+    @Test
+    fun returnsNoLastKnownLocationWhenHistoryIsEmpty() {
+        val history = LocationHistory()
+
+        assertNull(history.lastKnown())
     }
 
     @Test
